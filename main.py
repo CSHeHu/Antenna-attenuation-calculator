@@ -30,6 +30,7 @@ def import_from_file():
 
 def main():
     component_list = import_from_file()
+
     ui = Gui(component_list)
 
 
