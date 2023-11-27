@@ -7,3 +7,12 @@ class Component:
 
         self.__amount = amount
         self.__attenuation = attenuation
+
+    def get_amount(self):
+        return self.__amount
+
+    def get_attenuation(self):
+        return self.__attenuation
+
+
+
