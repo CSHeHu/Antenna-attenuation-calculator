@@ -22,7 +22,8 @@ def import_from_file():
         component_attenuation_high = line_list[2]
         # first cell for component type, next ones for low attenuation and
         # high attenuation
-        component = Component(component_name, component_attenuation_low, component_attenuation_high)
+        component = Component(component_name, component_attenuation_low,
+        component_attenuation_high)
         component_list.append(component)
 
     file_stream.close()

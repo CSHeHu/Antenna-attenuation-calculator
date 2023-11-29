@@ -17,6 +17,9 @@ class Component:
     def get_amount(self):
         return self.__amount
 
+    def set_amount(self, amount):
+        self.__amount = amount
+
     def get_attenuation_low(self):
         return self.__attenuation_low
 
@@ -25,6 +28,7 @@ class Component:
 
     def get_type(self):
         return self.__type
+
 
 
 
