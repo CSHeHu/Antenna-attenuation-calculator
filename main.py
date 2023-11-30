@@ -16,15 +16,26 @@ def import_from_file():
 
     component_list = []
     for line in file_stream:
-        line_list = line.rstrip().split(";")
-        component_name = line_list[0]
-        component_attenuation_low = line_list[1]
-        component_attenuation_high = line_list[2]
-        # first cell for component type, next ones for low attenuation and
-        # high attenuation
-        component = Component(component_name, component_attenuation_low,
-        component_attenuation_high)
-        component_list.append(component)
+        if line.isspace() or line[0] == '#':
+            continue
+        else:
+            line_list = line.rstrip().split(";")
+            if len(line_list) != 3:
+                continue
+            try:
+                float(line_list[1])
+                float(line_list[2])
+            except:
+                continue
+
+            component_name = line_list[0]
+            component_attenuation_low = line_list[1]
+            component_attenuation_high = line_list[2]
+            # first cell for component type, next ones for low attenuation and
+            # high attenuation
+            component = Component(component_name, component_attenuation_low,
+            component_attenuation_high)
+            component_list.append(component)
 
     file_stream.close()
     return component_list
