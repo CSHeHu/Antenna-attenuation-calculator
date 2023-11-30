@@ -185,8 +185,4 @@ class Gui:
             tilt = 0
         return tilt
 
-def main():
-    ...
 
-if __name__ == "__main__":
-    main()

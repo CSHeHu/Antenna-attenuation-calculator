@@ -5,48 +5,14 @@ HeHu
 20231127
 """
 
-from Component import Component
 from Gui import Gui
-
-def import_from_file():
-    try:
-        file_stream = open("components.txt", mode="r")
-    except OSError:
-        return None
-
-    component_list = []
-    for line in file_stream:
-        if line.isspace() or line[0] == '#':
-            continue
-        else:
-            line_list = line.rstrip().split(";")
-            if len(line_list) != 3:
-                continue
-            try:
-                float(line_list[1])
-                float(line_list[2])
-            except:
-                continue
-
-            component_name = line_list[0]
-            component_attenuation_low = line_list[1]
-            component_attenuation_high = line_list[2]
-            # first cell for component type, next ones for low attenuation and
-            # high attenuation
-            component = Component(component_name, component_attenuation_low,
-            component_attenuation_high)
-            component_list.append(component)
-
-    file_stream.close()
-    return component_list
+from fileimporter import FileImporter
 
 
 def main():
-    component_list = import_from_file()
-
-    ui = Gui(component_list)
-
-
+    component_list = FileImporter.import_from_file("components.txt")
+    if component_list:
+        ui = Gui(component_list)
 
 
 if __name__ == "__main__":
