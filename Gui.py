@@ -12,12 +12,17 @@ class Gui:
         self.__pcs_entries = []
         # Store the entry fields for GUI (not their values)
 
+        self.create_gui()
+
+
+    def create_gui(self):
         tk.set_appearance_mode("system")
         tk.set_default_color_theme("blue")
 
         self.__root = tk.CTk()
+        self.__root.iconbitmap('antenna.ico')
         self.__root.geometry("600x700")
-        self.__root.title("Antenna attenuation calculator")
+        self.__root.title("Antenna cablegrid attenuation calculator")
         self.__root.grid_columnconfigure(0, weight=1)
         self.__root.grid_rowconfigure(0, weight=1)
         self.__root.resizable(width=False, height=False)  # Disables resizing
@@ -26,19 +31,19 @@ class Gui:
         self.add_read_button_frame()
         self.add_sums_frame()
 
-
         self.__root.mainloop()
 
-
-
     def create_scrollable_frame(self):
-        self.__scrollable_frame = tk.CTkScrollableFrame(self.__root, width=550, height=600)
+        """
+        Creates the scrollable frame for components
+        """
+        self.__scrollable_frame = tk.CTkScrollableFrame(self.__root,
+        width=550, height=600)
         self.__scrollable_frame.grid(row=0, column=0, padx=20, pady=20)
 
         # Call the methods to print the component labels and components
         self.printout_component_labels(self.__scrollable_frame)
         self.printout_components(self.__scrollable_frame)
-
 
     def printout_component_labels(self, parent_frame):
         """
@@ -101,6 +106,9 @@ class Gui:
 
 
     def add_sums_frame(self):
+        """
+        Creates the frame for final sum calculations
+        """
         px = 5
         py = 5
         self.__sums_frame = tk.CTkFrame(self.__root)
@@ -118,7 +126,6 @@ class Gui:
         text="Tilt (max. 15dB)", fg_color="transparent")
         self.__tilt_static_label.grid(row=0, column=3, padx=px, sticky="nsew")
 
-
         self.__sum_low_label = tk.CTkLabel(self.__sums_frame,
         text="-dB", fg_color="transparent")
         self.__sum_low_label.grid(row=1, column=0, padx=px, sticky="nsew")
@@ -129,8 +136,12 @@ class Gui:
         text="-dB", fg_color="transparent")
         self.__tilt_label.grid(row=1, column=3, padx=px, sticky="nsew")
 
-
     def read_entries(self):
+        """
+        Reads the user inputs from entryfields. Stores the input in every
+        component objects attributes. After that the calculations are done.
+        :return:
+        """
         for index, component in enumerate(self.__components):
             pcs_value = self.__pcs_entries[index].get()
             # Get the value from the corresponding entry field
@@ -174,7 +185,7 @@ class Gui:
                 total_high_att += 0
         return total_high_att
 
-    def calculate_tilt(self,low,high):
+    def calculate_tilt(self, low, high):
         """
         Calculates the tilt between low and high attenuations
         :return: float, signal tilt
