@@ -16,7 +16,7 @@ class Gui:
         tk.set_default_color_theme("blue")
 
         self.__root = tk.CTk()
-        self.__root.geometry("450x600")
+        self.__root.geometry("600x1200")
         self.__root.title("Antenna attenuation calculator")
         self.__root.grid_columnconfigure(0, weight=1)
         self.__root.grid_rowconfigure(0, weight=1)
@@ -169,7 +169,7 @@ class Gui:
         self.__sum_high_label.configure(text=f"{self.calculate_high_att():.1f}")
         self.__pcs_amounts = [] # clear the list after calculations
 
-    #test line for git
+
 def main():
     ...
 
