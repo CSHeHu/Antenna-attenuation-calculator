@@ -169,7 +169,7 @@ class Gui:
         self.__sum_high_label.configure(text=f"{self.calculate_high_att():.1f}")
         self.__pcs_amounts = [] # clear the list after calculations
 
-
+    #test line for git
 def main():
     ...
 
