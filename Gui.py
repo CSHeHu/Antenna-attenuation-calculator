@@ -20,7 +20,10 @@ class Gui:
         tk.set_default_color_theme("blue")
 
         self.__root = tk.CTk()
-        self.__root.iconbitmap('antenna.ico')
+        try:
+            self.__root.iconbitmap('antenna.ico')
+        except Exception:
+            pass
         self.__root.geometry("600x700")
         self.__root.title("Antenna cablegrid attenuation calculator")
         self.__root.grid_columnconfigure(0, weight=1)
@@ -40,6 +43,7 @@ class Gui:
         self.__scrollable_frame = tk.CTkScrollableFrame(self.__root,
         width=550, height=600)
         self.__scrollable_frame.grid(row=0, column=0, padx=20, pady=20)
+        self.__scrollable_frame.grid_columnconfigure((0, 1, 2, 3), weight=1)
 
         # Call the methods to print the component labels and components
         self.printout_component_labels(self.__scrollable_frame)
@@ -61,6 +65,9 @@ class Gui:
         label03 = tk.CTkLabel(parent_frame, text="1000MHz",
                               fg_color="transparent")
         label03.grid(row=0, column=2, padx=px, pady=py, sticky="nsew")
+        label04 = tk.CTkLabel(parent_frame, text="Amount of equipment",
+                              fg_color="transparent")
+        label04.grid(row=0, column=3, padx=px, pady=py, sticky="nsew")
 
     def printout_components(self, parent_frame):
         """
@@ -124,7 +131,7 @@ class Gui:
         self.__sum_high_static_label.grid(row=0, column=1, padx=px, sticky="nsew")
         self.__tilt_static_label = tk.CTkLabel(self.__sums_frame,
         text="Tilt (max. 15dB)", fg_color="transparent")
-        self.__tilt_static_label.grid(row=0, column=3, padx=px, sticky="nsew")
+        self.__tilt_static_label.grid(row=0, column=2, padx=px, sticky="nsew")
 
         self.__sum_low_label = tk.CTkLabel(self.__sums_frame,
         text="-dB", fg_color="transparent")
@@ -134,7 +141,7 @@ class Gui:
         self.__sum_high_label.grid(row=1, column=1, padx=px, sticky="nsew")
         self.__tilt_label = tk.CTkLabel(self.__sums_frame,
         text="-dB", fg_color="transparent")
-        self.__tilt_label.grid(row=1, column=3, padx=px, sticky="nsew")
+        self.__tilt_label.grid(row=1, column=2, padx=px, sticky="nsew")
 
     def read_entries(self):
         """
