@@ -20,6 +20,7 @@ class Gui:
         self.__root.title("Antenna attenuation calculator")
         self.__root.grid_columnconfigure(0, weight=1)
         self.__root.grid_rowconfigure(0, weight=1)
+        self.__root.resizable(width=False, height=False)  # Disables resizing
 
         self.create_scrollable_frame()
         self.add_read_button_frame()
@@ -49,10 +50,10 @@ class Gui:
         label01 = tk.CTkLabel(parent_frame, text="Component",
                               fg_color="transparent")
         label01.grid(row=0, column=0, padx=px, pady=py, sticky="nsew")
-        label02 = tk.CTkLabel(parent_frame, text="Attenuation, low",
+        label02 = tk.CTkLabel(parent_frame, text="47MHz",
                               fg_color="transparent")
         label02.grid(row=0, column=1, padx=px, pady=py, sticky="nsew")
-        label03 = tk.CTkLabel(parent_frame, text="Attenuation, high",
+        label03 = tk.CTkLabel(parent_frame, text="1000MHz",
                               fg_color="transparent")
         label03.grid(row=0, column=2, padx=px, pady=py, sticky="nsew")
 
@@ -108,19 +109,25 @@ class Gui:
 
 
         self.__sum_low_static_label = tk.CTkLabel(self.__sums_frame,
-        text="Low freq sum:", fg_color="transparent")
+        text="47MHz sum (25-40dB):", fg_color="transparent")
         self.__sum_low_static_label.grid(row=0, column=0, padx=px, sticky="nsew")
         self.__sum_high_static_label = tk.CTkLabel(self.__sums_frame,
-        text="High freq sum", fg_color="transparent")
+        text="1000MHz sum (25-40dB)", fg_color="transparent")
         self.__sum_high_static_label.grid(row=0, column=1, padx=px, sticky="nsew")
+        self.__tilt_static_label = tk.CTkLabel(self.__sums_frame,
+        text="Tilt (max. 15dB)", fg_color="transparent")
+        self.__tilt_static_label.grid(row=0, column=3, padx=px, sticky="nsew")
+
 
         self.__sum_low_label = tk.CTkLabel(self.__sums_frame,
-        text="-", fg_color="transparent")
+        text="-dB", fg_color="transparent")
         self.__sum_low_label.grid(row=1, column=0, padx=px, sticky="nsew")
         self.__sum_high_label = tk.CTkLabel(self.__sums_frame,
-        text="-", fg_color="transparent")
+        text="-dB", fg_color="transparent")
         self.__sum_high_label.grid(row=1, column=1, padx=px, sticky="nsew")
-
+        self.__tilt_label = tk.CTkLabel(self.__sums_frame,
+        text="-dB", fg_color="transparent")
+        self.__tilt_label.grid(row=1, column=3, padx=px, sticky="nsew")
 
 
     def read_entries(self):
@@ -129,8 +136,12 @@ class Gui:
             # Get the value from the corresponding entry field
             component.set_amount(pcs_value)
 
-        self.__sum_low_label.configure(text=f"{self.calculate_low_att():.1f}")
-        self.__sum_high_label.configure(text=f"{self.calculate_high_att():.1f}")
+        low_sum = self.calculate_low_att()
+        high_sum = self.calculate_high_att()
+        tilt = self.calculate_tilt(low_sum, high_sum)
+        self.__sum_low_label.configure(text=f"{low_sum:.1f}dB")
+        self.__sum_high_label.configure(text=f"{high_sum:.1f}dB")
+        self.__tilt_label.configure(text=f"{tilt:.1f}dB")
         self.__pcs_amounts = [] # clear the list after calculations
 
     def calculate_low_att(self):
@@ -162,6 +173,17 @@ class Gui:
             except ValueError:
                 total_high_att += 0
         return total_high_att
+
+    def calculate_tilt(self,low,high):
+        """
+        Calculates the tilt between low and high attenuations
+        :return: float, signal tilt
+        """
+        try:
+            tilt = high - low
+        except ValueError:
+            tilt = 0
+        return tilt
 
 def main():
     ...
