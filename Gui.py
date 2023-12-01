@@ -1,5 +1,6 @@
 import customtkinter as tk
 from calculator import Calculator
+from printer import Printer
 
 class Gui:
     def __init__(self, components):
@@ -20,6 +21,10 @@ class Gui:
         self.__sum_high_label = None
         self.__tilt_label = None
         self.__cq_frame = None
+
+        self.__sum_low = None
+        self.__sum_high = None
+        self.__tilt = None
 
         self.create_gui()
 
@@ -181,16 +186,22 @@ class Gui:
             pcs_value = self.__pcs_entries[index].get()
             # Get the value from the corresponding entry field and store
             # them in components amount attribute
+            if pcs_value == "":
+                pcs_value = 0
             component.set_amount(pcs_value)
 
         calculator = Calculator(self.__components)
-        low_sum = calculator.calculate_low_att()
-        high_sum = calculator.calculate_high_att()
-        tilt = calculator.calculate_tilt(low_sum, high_sum)
-        self.__sum_low_label.configure(text=f"{low_sum:.1f}dB")
-        self.__sum_high_label.configure(text=f"{high_sum:.1f}dB")
-        self.__tilt_label.configure(text=f"{tilt:.1f}dB")
+        self.__sum_low = calculator.calculate_low_att()
+        self.__sum_high = calculator.calculate_high_att()
+        self.__tilt = calculator.calculate_tilt(self.__sum_low, self.__sum_high)
+        self.__sum_low_label.configure(text=f"{self.__sum_low:.1f}dB")
+        self.__sum_high_label.configure(text=f"{self.__sum_high:.1f}dB")
+        self.__tilt_label.configure(text=f"{self.__tilt:.1f}dB")
         self.__pcs_amounts = [] # clear the list after calculations
+
+    def print_calculations(self):
+        calc_print = Printer(self.__components, self.__sum_low, self.__sum_high, self.__tilt)
+        calc_print.print_calculations()
 
     def clear_entries(self):
         self.__pcs_amounts = []
@@ -201,6 +212,7 @@ class Gui:
         self.read_entries()
 
     def quit_program(self):
+        #self.print_calculations()
         self.__root.destroy()
 
 
