@@ -166,16 +166,19 @@ class Gui:
         px = 5
         py = 5
         self.__cq_frame = tk.CTkFrame(self.__root)
-        self.__cq_frame.grid_columnconfigure((0,2), weight=1)
+        self.__cq_frame.grid_columnconfigure((0,1,2), weight=1)
         self.__cq_frame.grid(row=3, column=0, padx=px, pady=py,
                                sticky="nsew")
 
         clear_button = tk.CTkButton(self.__cq_frame,
         text="Clear Entries", command=self.clear_entries)
-        clear_button.grid(row=0, column=0, padx=px, pady=py, sticky="nsew")
+        clear_button.grid(row=0, column=1, padx=px, pady=py, sticky="nsew")
         quit_button = tk.CTkButton(self.__cq_frame,
         text="Exit", command=self.quit_program)
         quit_button.grid(row=0, column=2, padx=px, pady=py, sticky="nsew")
+        export_button = tk.CTkButton(self.__cq_frame,
+        text="Export", command=self.print_calculations)
+        export_button.grid(row=0, column=0, padx=px, pady=py, sticky="nsew")
 
     def read_entries(self):
         """
@@ -201,10 +204,18 @@ class Gui:
         self.__pcs_amounts = [] # clear the list after calculations
 
     def print_calculations(self):
+        """
+        Passes down components object and calculations for printer to form
+        them in a printable manner. After that exports them to a txt file.
+        """
         calc_print = Printer(self.__components, self.__sum_low, self.__sum_high, self.__tilt)
         export = Fileexporter(calc_print)
 
     def clear_entries(self):
+        """
+        Clears user input fields and resets calculations by calling read_entries
+        with empty values
+        """
         self.__pcs_amounts = []
 
         for index, entryfield in enumerate(self.__pcs_entries):
@@ -213,7 +224,9 @@ class Gui:
         self.read_entries()
 
     def quit_program(self):
-        #self.print_calculations()
+        """
+        Ends program
+        """
         self.__root.destroy()
 
 
