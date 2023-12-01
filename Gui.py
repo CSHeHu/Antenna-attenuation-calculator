@@ -19,6 +19,7 @@ class Gui:
         self.__sum_low_label = None
         self.__sum_high_label = None
         self.__tilt_label = None
+        self.__cq_frame = None
 
         self.create_gui()
 
@@ -41,6 +42,7 @@ class Gui:
         self.create_scrollable_frame()
         self.add_read_button_frame()
         self.add_sums_frame()
+        self.add_cq_frame()
 
         self.__root.mainloop()
 
@@ -98,7 +100,7 @@ class Gui:
             text=component.get_attenuation_high(), fg_color="transparent")
             label3.grid(row=index, column=2, padx=px, sticky="nsew")
 
-            pcs_entry = tk.CTkEntry(self.__scrollable_frame, placeholder_text="pcs")
+            pcs_entry = tk.CTkEntry(self.__scrollable_frame, placeholder_text="")
             pcs_entry.grid(row=index, column=3, padx=px, pady=py, sticky="nsew")
             self.__pcs_entries.append(pcs_entry)  # Store the entryfields
             # of components to list from entry fields
@@ -151,13 +153,23 @@ class Gui:
         text="-dB", fg_color="transparent")
         self.__tilt_label.grid(row=1, column=2, padx=px, sticky="nsew")
 
-    def add_clear_quit_frame(self):
+    def add_cq_frame(self):
         """
         Creates the frame for final sum calculations
         """
         px = 5
         py = 5
-        pass
+        self.__cq_frame = tk.CTkFrame(self.__root)
+        self.__cq_frame.grid_columnconfigure((0,2), weight=1)
+        self.__cq_frame.grid(row=3, column=0, padx=px, pady=py,
+                               sticky="nsew")
+
+        clear_button = tk.CTkButton(self.__cq_frame,
+        text="Clear Entries", command=self.clear_entries)
+        clear_button.grid(row=0, column=0, padx=px, pady=py, sticky="nsew")
+        quit_button = tk.CTkButton(self.__cq_frame,
+        text="Exit", command=self.quit_program)
+        quit_button.grid(row=0, column=2, padx=px, pady=py, sticky="nsew")
 
     def read_entries(self):
         """
@@ -180,7 +192,16 @@ class Gui:
         self.__tilt_label.configure(text=f"{tilt:.1f}dB")
         self.__pcs_amounts = [] # clear the list after calculations
 
+    def clear_entries(self):
+        self.__pcs_amounts = []
 
+        for index, entryfield in enumerate(self.__pcs_entries):
+            self.__pcs_entries[index].delete(0, tk.END)
+
+        self.read_entries()
+
+    def quit_program(self):
+        self.__root.destroy()
 
 
 
