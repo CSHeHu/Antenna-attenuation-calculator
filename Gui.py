@@ -1,6 +1,7 @@
 import customtkinter as tk
 from calculator import Calculator
 from printer import Printer
+from fileexporter import Fileexporter
 
 class Gui:
     def __init__(self, components):
@@ -201,7 +202,7 @@ class Gui:
 
     def print_calculations(self):
         calc_print = Printer(self.__components, self.__sum_low, self.__sum_high, self.__tilt)
-        calc_print.print_calculations()
+        export = Fileexporter(calc_print)
 
     def clear_entries(self):
         self.__pcs_amounts = []

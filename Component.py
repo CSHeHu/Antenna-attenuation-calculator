@@ -12,7 +12,7 @@ class Component:
         self.__attenuation_high = attenuation_high
 
     def __str__(self):
-        return f"{self.__type},\t\t{self.__attenuation_low}db,\t{self.__attenuation_high}db"
+        return f"{self.__type},{self.__attenuation_low},{self.__attenuation_high}"
 
     def get_amount(self):
         return self.__amount
