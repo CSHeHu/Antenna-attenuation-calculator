@@ -11,6 +11,14 @@ class Gui:
         self.__components = components  # a list of class Component objects
         self.__pcs_entries = []
         # Store the entry fields for GUI (not their values)
+        self.__pcs_amounts = []
+        self.__root = None
+        self.__scrollable_frame = None
+        self.__read_frame = None
+        self.__sums_frame = None
+        self.__sum_low_label = None
+        self.__sum_high_label = None
+        self.__tilt_label = None
 
         self.create_gui()
 
@@ -46,30 +54,30 @@ class Gui:
         self.__scrollable_frame.grid_columnconfigure((0, 1, 2, 3), weight=1)
 
         # Call the methods to print the component labels and components
-        self.printout_component_labels(self.__scrollable_frame)
-        self.printout_components(self.__scrollable_frame)
+        self.printout_component_labels()
+        self.printout_components()
 
-    def printout_component_labels(self, parent_frame):
+    def printout_component_labels(self):
         """
         Creates the main labels for components from labels
         :return:
         """
         px = 5
         py = 5
-        label01 = tk.CTkLabel(parent_frame, text="Component",
+        label01 = tk.CTkLabel(self.__scrollable_frame, text="Component",
                               fg_color="transparent")
         label01.grid(row=0, column=0, padx=px, pady=py, sticky="nsew")
-        label02 = tk.CTkLabel(parent_frame, text="47MHz",
+        label02 = tk.CTkLabel(self.__scrollable_frame, text="47MHz",
                               fg_color="transparent")
         label02.grid(row=0, column=1, padx=px, pady=py, sticky="nsew")
-        label03 = tk.CTkLabel(parent_frame, text="1000MHz",
+        label03 = tk.CTkLabel(self.__scrollable_frame, text="1000MHz",
                               fg_color="transparent")
         label03.grid(row=0, column=2, padx=px, pady=py, sticky="nsew")
-        label04 = tk.CTkLabel(parent_frame, text="Amount of equipment",
+        label04 = tk.CTkLabel(self.__scrollable_frame, text="Amount of equipment",
                               fg_color="transparent")
         label04.grid(row=0, column=3, padx=px, pady=py, sticky="nsew")
 
-    def printout_components(self, parent_frame):
+    def printout_components(self):
         """
         Goes trough the list of components and prints out their information.
         After each component a entry field will be created which are stored
@@ -78,19 +86,19 @@ class Gui:
         px = 5
         py = 5
         for index, component in enumerate(self.__components, start=1):
-            label1 = tk.CTkLabel(parent_frame,
+            label1 = tk.CTkLabel(self.__scrollable_frame,
             text=component.get_type(), fg_color="transparent")
             label1.grid(row=index, column=0, padx=px, sticky="nsew")
 
-            label2 = tk.CTkLabel(parent_frame,
+            label2 = tk.CTkLabel(self.__scrollable_frame,
             text=component.get_attenuation_low(), fg_color="transparent")
             label2.grid(row=index, column=1, padx=px, sticky="nsew")
 
-            label3 = tk.CTkLabel(parent_frame,
+            label3 = tk.CTkLabel(self.__scrollable_frame,
             text=component.get_attenuation_high(), fg_color="transparent")
             label3.grid(row=index, column=2, padx=px, sticky="nsew")
 
-            pcs_entry = tk.CTkEntry(parent_frame, placeholder_text="pcs")
+            pcs_entry = tk.CTkEntry(self.__scrollable_frame, placeholder_text="pcs")
             pcs_entry.grid(row=index, column=3, padx=px, pady=py, sticky="nsew")
             self.__pcs_entries.append(pcs_entry)  # Store the entryfields
             # of components to list from entry fields
@@ -123,15 +131,15 @@ class Gui:
         self.__sums_frame.grid(row=2, column=0, padx=px, pady=py, sticky="nsew")
 
 
-        self.__sum_low_static_label = tk.CTkLabel(self.__sums_frame,
+        sum_low_static_label = tk.CTkLabel(self.__sums_frame,
         text="47MHz sum (25-40dB):", fg_color="transparent")
-        self.__sum_low_static_label.grid(row=0, column=0, padx=px, sticky="nsew")
-        self.__sum_high_static_label = tk.CTkLabel(self.__sums_frame,
+        sum_low_static_label.grid(row=0, column=0, padx=px, sticky="nsew")
+        sum_high_static_label = tk.CTkLabel(self.__sums_frame,
         text="1000MHz sum (25-40dB)", fg_color="transparent")
-        self.__sum_high_static_label.grid(row=0, column=1, padx=px, sticky="nsew")
-        self.__tilt_static_label = tk.CTkLabel(self.__sums_frame,
+        sum_high_static_label.grid(row=0, column=1, padx=px, sticky="nsew")
+        tilt_static_label = tk.CTkLabel(self.__sums_frame,
         text="Tilt (max. 15dB)", fg_color="transparent")
-        self.__tilt_static_label.grid(row=0, column=2, padx=px, sticky="nsew")
+        tilt_static_label.grid(row=0, column=2, padx=px, sticky="nsew")
 
         self.__sum_low_label = tk.CTkLabel(self.__sums_frame,
         text="-dB", fg_color="transparent")
@@ -142,6 +150,14 @@ class Gui:
         self.__tilt_label = tk.CTkLabel(self.__sums_frame,
         text="-dB", fg_color="transparent")
         self.__tilt_label.grid(row=1, column=2, padx=px, sticky="nsew")
+
+    def add_clear_quit_frame(self):
+        """
+        Creates the frame for final sum calculations
+        """
+        px = 5
+        py = 5
+        pass
 
     def read_entries(self):
         """
