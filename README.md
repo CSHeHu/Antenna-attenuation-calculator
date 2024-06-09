@@ -6,3 +6,8 @@ A simple calculator to calculate total attenuation of an antenna grid between 47
 Components and their values are stored inside a txt file which is configurable.
 
 You are able to printout calculations from the program into a txt file.
+
+<h2>Dependencies</h2>
+<ul>
+<li>Custom TKinter</li>
+</ul>
