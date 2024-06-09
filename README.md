@@ -1,4 +1,4 @@
-Antenna attenuation calculator
+<h1>Antenna attenuation calculator</h1>
 
 ![kuva](https://github.com/heissendo/Antenna-attenuation-calculator/assets/47637198/104e54e8-63df-4086-83ab-7c5b50b1407c)
 
